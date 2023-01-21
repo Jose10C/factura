@@ -1,0 +1,188 @@
+<div class="container">
+    <form [formGroup]="formventa" (ngSubmit)="guardar($event)">
+        <div class="columns">
+            <div class="column is-4">
+                <!-- <div class="columns">
+                    <div class="column is-6">
+                        <label class="label">Comprobante</label>
+                        <div class="control">
+                            <div class="select">
+                                <select formControlName="comprobante">
+                                    <option value="Boleta" selected>Boleta</option>
+                                    <option value="Factura">Factura</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label class="label">Tipo de Cliente</label>
+                        <div class="control">
+                            <div class="select">
+                                <select formControlName="tcliente">
+                                    <option value="0" selected>Jurídico</option>
+                                    <option value="1">Natural</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="columns">
+                    <!-- <div class="column is-6">
+                        <label class="label">DNI</label>
+                        <div class="control">
+                            <input class="input" type="text" formControlName="dni" [class.is-danger]="dniFieldIsInvalid"
+                                [maxLength]="8" />
+                        </div>
+                        <div *ngIf="dniFieldIsInvalid">
+                            <p class="help is-danger" *ngIf="dniField?.hasError('required')">
+                                *Este campo no puede ser vacío
+                            </p>
+                            <p class="help is-danger" *ngIf="dniField?.hasError('minlength')">
+                                *Este campo debe tener 8 caracteres
+                            </p>
+                        </div>
+                    </div> -->
+                    <div class="column is-12">
+                        <div>
+                            <label class="label">RUC</label>
+                            <div class="control">
+                                <input class="input" type="text" formControlName="ruc"
+                                    [class.is-danger]="rucFieldIsInvalid" [maxLength]="11" />
+                            </div>
+                            <div *ngIf="rucFieldIsInvalid">
+                                <p class="help is-danger" *ngIf="rucField?.hasError('required')">
+                                    *Este campo no puede ser vacío
+                                </p>
+                                <p class="help is-danger" *ngIf="rucField?.hasError('minlength')">
+                                    *Este campo debe tener 11 caracteres
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-12">
+                        <div>
+                            <label class="label">Razon Social</label>
+                            <div class="control">
+                                <input class="input" type="text" formControlName="razonsocial"
+                                    [class.is-danger]="razonsocialFieldIsInvalid"/>
+                            </div>
+                            <div *ngIf="razonsocialFieldIsInvalid">
+                                <p class="help is-danger" *ngIf="razonsocialField?.hasError('required')">
+                                    *Este campo no puede ser vacío
+                                </p>
+                                <p class="help is-danger" *ngIf="razonsocialField?.hasError('minlength')">
+                                    *Este campo debe tener 11 caracteres
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="columns">
+                    <div class="column is-6">
+                        <label class="label">Nombres</label>
+                        <div class="control">
+                            <input class="input" type="text" formControlName="nombres"
+                                [class.is-danger]="nombresFieldIsInvalid" />
+                        </div>
+                        <div *ngIf="nombresFieldIsInvalid">
+                            <p class="help is-danger" *ngIf="nombresField?.hasError('required')">
+                                *Este campo no puede ser vacío
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label class="label">Apellidos</label>
+                        <div class="control">
+                            <input class="input" type="text" formControlName="apellidos"
+                                [class.is-danger]="apellidosFieldIsInvalid" />
+                        </div>
+                        <div *ngIf="apellidosFieldIsInvalid">
+                            <p class="help is-danger" *ngIf="apellidosField?.hasError('required')">
+                                *Este campo no puede ser vacío
+                            </p>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="columns">
+                    <div class="column is-12">
+                        <label class="label">Dirección</label>
+                        <div class="control">
+                            <input class="input" type="text" formControlName="direccion" />
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="columns is-mobile">
+                    <button type="submit" class="button is-info is-fullwidth">Vender</button>
+                </div>
+                <div class="columns">
+                    <div class="column is-4">
+                        <label class="label">S.Total</label>
+                        <div class="control">
+                            <input class="input" type="text" id="fsubtotal" value="49.2" readonly>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <label class="label">I.G.V.</label>
+                        <div class="control">
+                            <input class="input" type="text" id="figv" value="10.8" readonly>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <label class="label">Total</label>
+                        <div class="control">
+                            <input class="input" type="text" id="ftotal" value="60.0" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-8">
+                <div class="columns">
+                    <div class="column is-10">
+                        <div class="control">
+                            <input class="input" type="text" id="bproducto" placeholder="Buscar producto"/>
+                        </div>
+                    </div>
+                    <div class="column is-2">
+                        <button type="button" class="button is-info" (click)="agregaritems()">Agregar</button>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-12">
+                        <table class="table is-narrow is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Cantidad</th>
+                                    <th>Descripción</th>
+                                    <th>P.Unitario</th>
+                                    <th>S.Total</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody  formArrayName="itemsField" *ngFor="let item of itemsField.controls; let i = index">
+                                <tr [formGroupName]="i">
+                                    <td><input class="input" type="number" [attr.id]="'item'+i" value="2" min="1" formControlName="cantidad"></td>
+                                    <td><span [attr.id]="'item'+i" formControlName="descripcion">Licencia Antivirus ESET NOD32 (1 año)</span></td>
+                                    <td><span [attr.id]="'item'+i" formControlName="punitario">80.0</span></td>
+                                    <td><span [attr.id]="'item'+i" formControlName="stotal">160.0</span></td>
+                                    <td><button class="delete is-large" (click)="removeritem(i)"></button></td>
+                                </tr>
+                                <tr>
+                                    <td>como</td>
+                                    <td>como</td>
+                                    <td>como</td>
+                                    <td>como</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

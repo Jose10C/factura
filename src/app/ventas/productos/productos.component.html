@@ -1,0 +1,207 @@
+<section class="hero is-primary is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Crear producto
+            </h1>
+            <h2 class="subtitle">
+                Forms en Angular
+            </h2>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <section class="section">
+        <form [formGroup]="form" novalidate (ngSubmit)="guardar($event)">
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input class="input" type="text" formControlName="name" [class.is-danger]="nameFieldIsInvalid" [class.is-success]="nameFieldIsValid" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <span *ngIf="nameFieldIsValid" class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    <span *ngIf="nameFieldIsInvalid" class="icon is-small is-right">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
+                <div *ngIf="nameFieldIsInvalid">
+                    <p class="help is-danger" *ngIf="nameField?.hasError('required')">
+                        *Este campo es requerido
+                    </p>
+                    <p class="help is-danger" *ngIf="nameField?.hasError('minlength')">
+                        *Debe tener al menos 4 caracteres
+                    </p>
+                </div>
+                <!-- <p class="help is-success">This username is available</p> -->
+            </div>
+            <div class="field">
+                <label class="label">Fecha</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input class="input" type="date" formControlName="date" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-calendar-alt"></i>
+                    </span>
+                    <span class="icon is-small is-right has-text-success">
+                        <i class="fas fa-check"></i>
+                    </span>
+                </div>
+                <p class="help is-success">This username is available</p>
+            </div>
+            <!-- <button class="button is-primary" type="button" (click)="doSomething()">
+          Action
+        </button> -->
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input class="input" [class.is-danger]="emailFieldIsInvalid" [class.is-success]="emailFieldIsValid"
+                        type="email" formControlName="email" />
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-at"></i>
+                    </span>
+                    <span *ngIf="emailFieldIsValid" class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    <span *ngIf="emailFieldIsInvalid" class="icon is-small is-right">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
+                <!-- <p class="help is-success">Success message</p>
+                <p class="help is-danger">Error message</p> -->
+                <div *ngIf="emailFieldIsInvalid">
+                    <p class="help is-danger" *ngIf="emailField?.hasError('required')">
+                        *Este campo es requerido
+                    </p>
+                    <p class="help is-danger" *ngIf="emailField?.hasError('email')">
+                        *Debe tener el formato de email
+                    </p>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Texto largo:</label>
+                <div class="control">
+                    <textarea class="textarea" cols="30" rows="10" formControlName="text"></textarea>
+                    {{ form.get("text")?.value.length }}/80
+                </div>
+                <p class="help is-success">This username is available {{ form.get("text")?.value.length }}/80</p>
+                <!-- <div *ngIf="form.get('text').errors && form.get('text').touched">
+        <p *ngIf="form.get('text').hasError('required')">
+          Es un campo requerido
+        </p>
+        <p *ngIf="form.get('text').hasError('maxlength')">
+          Te pasaste, máximo deben haber 80 caracteres.
+        </p>
+      </div> -->
+            </div>
+            <div class="field">
+                <label class="label">Category:</label>
+                <div class="control">
+                    <div class="select">
+                        <select formControlName="category">
+                            <option value="1">Category 1</option>
+                            <option value="2">Category 2</option>
+                            <option value="3">Category 3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Genero:</label>
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="gender" formControlName="gender" value="male" />
+                        Male
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="gender" formControlName="gender" value="female" />
+                        Female
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="gender" formControlName="gender" value="other" />
+                        Other
+                    </label>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-primary" type="submit">Guardar</button>
+                </div>
+                <div class="control">
+                    <button class="button is-light" type="reset">Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+<!-- <form [formGroup]="form" (ngSubmit)="guardar($event)">
+    <p>
+        Name: <br />
+        <input type="text" formControlName="name">
+    </p>
+    <div *ngIf="form.get('name')?.errors && form.get('name')?.touched">
+        <p class="error" *ngIf="form.get('name')?.hasError('required')">
+            El campo es obligatorio
+        </p>
+    </div>
+    <p>
+        Fecha: <br />
+        <input type="date" formControlName="date">
+    </p>
+    <div *ngIf="form.get('date')?.errors && form.get('date')?.touched">
+        <p class="error" *ngIf="form.get('date')?.hasError('required')">
+            El campo es obligatorio
+        </p>
+    </div>
+    <p>
+        Email: <br />
+        <input type="email" formControlName="email">
+    </p>
+    <div *ngIf="emailFiel?.errors && emailFiel?.touched">
+        <p class="error" *ngIf="emailFiel?.hasError('email')">
+            Debe tener formato de email
+        </p>
+        <p class="error" *ngIf="emailFiel?.hasError('required')">
+            El campo es obligatorio
+        </p>
+    </div>
+    <p>
+        Texto largo: <br />
+        <textarea cols="30" rows="10" formControlName="text"></textarea>
+        <small>{{ this.form.get('text')?.value.length }}/80</small>
+    </p>
+    <div class="message" *ngIf="form.get('text')?.errors && form.get('text')?.touched">
+        <p class="error" *ngIf="form.get('text')?.hasError('required')">
+            Es un campo requerido
+        </p>
+        <p class="error" *ngIf="form.get('text')?.hasError('maxlength')">
+            Te pasaste, máximo deben haber 80 caracteres.
+        </p>
+    </div>
+    <p>
+        Category: <br />
+        <select formControlName="category">
+            <option value="1">Category 1</option>
+            <option value="2">Category 2</option>
+            <option value="3">Category 3</option>
+        </select>
+    </p>
+    <div *ngIf="form.get('category')?.errors && form.get('category')?.touched">
+        <p class="error" *ngIf="form.get('category')?.hasError('required')">
+            El campo es obligatorio
+        </p>
+    </div>
+    <p>
+        Genero: <br />
+        <input type="radio" name="gender" formControlName="gender" value="male"> Male<br>
+        <input type="radio" name="gender" formControlName="gender" value="female"> Female<br>
+        <input type="radio" name="gender" formControlName="gender" value="other"> Other
+    </p>
+    <div *ngIf="form.get('gender')?.errors && form.get('gender')?.touched">
+        <p class="error" *ngIf="form.get('gender')?.hasError('required')">
+            El campo es obligatorio
+        </p>
+    </div>
+    <button type="submit">Guardar</button>
+</form> -->
