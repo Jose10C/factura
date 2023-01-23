@@ -67,15 +67,15 @@
                             <label class="label">Razon Social</label>
                             <div class="control">
                                 <input class="input" type="text" formControlName="razonsocial"
-                                    [class.is-danger]="razonsocialFieldIsInvalid"/>
+                                    [class.is-danger]="razonsocialFieldIsInvalid" />
                             </div>
                             <div *ngIf="razonsocialFieldIsInvalid">
                                 <p class="help is-danger" *ngIf="razonsocialField?.hasError('required')">
                                     *Este campo no puede ser vacío
                                 </p>
-                                <p class="help is-danger" *ngIf="razonsocialField?.hasError('minlength')">
+                                <!-- <p class="help is-danger" *ngIf="razonsocialField?.hasError('minlength')">
                                     *Este campo debe tener 11 caracteres
-                                </p>
+                                </p> -->
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                     <div class="column is-4">
                         <label class="label">Total</label>
                         <div class="control">
-                            <input class="input" type="text" id="ftotal" value="60.0" readonly>
+                            <input class="input" type="text" id="ftotal" #ftotal value="60.0" readonly>
                         </div>
                     </div>
                 </div>
@@ -144,11 +144,30 @@
                 <div class="columns">
                     <div class="column is-10">
                         <div class="control">
-                            <input class="input" type="text" id="bproducto" placeholder="Buscar producto"/>
+                            <input class="input" type="text" id="bproducto" placeholder="Buscar producto" />
                         </div>
+                        <!-- inicio input -->
+                        <ng-autocomplete
+                        [data]="productos"
+                        [searchKeyword]="campobuscar"
+                        [itemTemplate]="itemTemplate"
+                        [notFoundTemplate]="notFoundTemplate"
+                        placeholder="Buscar producto"
+                        notFoundText="No se encontró ningún registro"
+                        closed="clear"
+                        ></ng-autocomplete>
+                        <!-- fin input -->
+                        <!-- libreria inicio -->
+                        <ng-template #itemTemplate let-item>
+                            <a [innerHTML]="item.descripcion+' stock('+item.stock+')'" (click)="agregaritems(item.id)" (selected)="agregaritems(item.id)"></a>
+                        </ng-template>
+                        <ng-template #notFoundTemplate let-notFound>
+                            <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                        <!-- libreria fin -->
                     </div>
                     <div class="column is-2">
-                        <button type="button" class="button is-info" (click)="agregaritems()">Agregar</button>
+                        <button type="button" class="button is-info"(click)="cambiar()">Agregar</button>
                     </div>
                 </div>
                 <div class="columns">
@@ -163,19 +182,23 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody  formArrayName="itemsField" *ngFor="let item of itemsField.controls; let i = index">
+                            <tbody formArrayName="items" *ngFor="let item of itemsField.controls; let i = index">
                                 <tr [formGroupName]="i">
-                                    <td><input class="input" type="number" [attr.id]="'item'+i" value="2" min="1" formControlName="cantidad"></td>
-                                    <td><span [attr.id]="'item'+i" formControlName="descripcion">Licencia Antivirus ESET NOD32 (1 año)</span></td>
+                                    <td><input class="input" type="number" [attr.id]="'item'+i" value="2" min="1" (click)="actualizarprecios(i)"
+                                            formControlName="cantidad"></td>
+                                    <td><input class="input" type="text" [attr.id]="'item'+i"
+                                            formControlName="descripcion">
+                                    </td>
+                                    <td><input class="input" type="text" [attr.id]="'item'+i"
+                                            formControlName="punitario"></td>
+                                    <td>
+                                        <span id="xsubtotal" #xsubtotal></span>
+                                        <input class="input" type="text" [attr.id]="'item'+i"
+                                            formControlName="stotal"></td>
+                                    <!-- <td><span [attr.id]="'item'+i" formControlName="descripcion">Licencia Antivirus ESET NOD32 (1 año)</span></td>
                                     <td><span [attr.id]="'item'+i" formControlName="punitario">80.0</span></td>
-                                    <td><span [attr.id]="'item'+i" formControlName="stotal">160.0</span></td>
+                                    <td><span [attr.id]="'item'+i" formControlName="stotal">160.0</span></td> -->
                                     <td><button class="delete is-large" (click)="removeritem(i)"></button></td>
-                                </tr>
-                                <tr>
-                                    <td>como</td>
-                                    <td>como</td>
-                                    <td>como</td>
-                                    <td>como</td>
                                 </tr>
                             </tbody>
                         </table>

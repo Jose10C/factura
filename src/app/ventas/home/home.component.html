@@ -1,0 +1,216 @@
+<section class="content">
+    <p>home works!</p>
+    <form [formGroup]="formventa" (ngSubmit)="guardar($event)">
+    <div class="columns" style="background-color: #fff1ca;">
+        <div class="column is-9" style="border-color: black; border-width: 2px; border-style: solid;">
+            <!-- boleta -->
+            <!-- cabecera -->
+            <div class="columns">
+                <!-- informacion de la empresa -->
+                <div class="column is-7" style="text-align: center;">
+                    <br>
+                    <h4 class="nada">Multiservicio y Libreria E.I.R.L</h4>
+                    <h1 class="nada">"La Casa del buen Lector"</h1>
+                    <h5 class="nada">Av. Miguel Grau 982 - La Victoria - Lima</h5>
+                    <h6 class="nada">Jr. Callao 134 - Miraflores - Lima</h6>
+                </div>
+                <!-- informacion de serie -->
+                <div class="column is-5">
+                    <div style="border-color: transparent; border-width: 30px; border-style: solid;">
+                        <div class="field"
+                            style="text-align: center ;border-color: black; border-width: 2px; border-style: solid;">
+                            <h3>R.U.C. 20100074568</h3>
+                            <h3>FACTURA</h3>
+                            <h6 style="color: rgb(223, 4, 4);">002 N° - 005160</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- datos personales del cliente -->
+
+            <div class="columns">
+                <!-- informacion básica -->
+                <div class="column is-7">
+                    <div style="display: flex;">
+                        <label for="razonsocial" style="width: 100px;">R.U.C. N°:</label>
+                        <input type="text"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
+                            formControlName="ruc"
+                            [class.is-danger]="rucFieldIsInvalid" [maxLength]="11"
+                            onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
+                            (focus)="mostrarRUC();"/>
+                    </div>
+                    <div *ngIf="rucFieldIsInvalid">
+                        <p class="help is-danger" *ngIf="rucField?.hasError('required')">
+                            *Este campo no puede ser vacío
+                        </p>
+                        <p class="help is-danger" *ngIf="rucField?.hasError('minlength')">
+                            *Este campo debe tener 11 caracteres
+                        </p>
+                    </div>
+                    <div style="display: flex;">
+                        <label for="razonsocial" style="width: 100px;">Señor (es):</label>
+                        <input type="text"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
+                            formControlName="razonsocial"
+                            [class.is-danger]="razonsocialFieldIsInvalid"
+                            (focus)="mostrarRazon();"/>
+                    </div>
+                    <div *ngIf="razonsocialFieldIsInvalid">
+                        <p class="help is-danger" *ngIf="razonsocialField?.hasError('required')">
+                            *Este campo no puede ser vacío
+                        </p>
+                        <p class="help is-danger" *ngIf="razonsocialField?.hasError('minlength')">
+                            *Este campo debe tener 5 caracteres
+                        </p>
+                    </div>
+                    <div style="display: flex;">
+                        <label for="direccion" style="width: 100px;">Dirección:</label>
+                        <input type="text"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
+                            formControlName="direccion"
+                            [class.is-danger]="direccionFieldIsInvalid"/>
+                    </div>
+                    <div *ngIf="direccionFieldIsInvalid">
+                        <p class="help is-danger" *ngIf="direccionField?.hasError('required')">
+                            *Este campo no puede ser vacío
+                        </p>
+                        <p class="help is-danger" *ngIf="direccionField?.hasError('minlength')">
+                            *Este campo debe tener 5 caracteres
+                        </p>
+                    </div>
+                </div>
+                <!-- informacion de fecha y extras -->
+                <div class="column is-5">
+                    <div style="display: flex;">
+                        <label for="razonsocial">Abancay, </label>
+                        <input type="text" value="24"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
+                        <label for="razonsocial">de </label>
+                        <input type="text" value="Enero"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
+                        <label for="razonsocial">del </label>
+                        <input type="text" value="2023"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
+                    </div>
+                    <div style="display: flex;">
+                        <label for="razonsocial" style="width: 300px;">Guía de Remisión N°:</label>
+                        <input type="text" value="001-001043"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
+                    </div>
+                </div>
+            </div>
+            <!-- buscador de productos -->
+            <div class="columns">
+                <div class="column is-2"></div>
+                <div class="column is-8">
+                    <!-- <div class="control">
+                        <input class="input" type="text" id="bproducto" placeholder="Buscar producto" />
+                    </div> -->
+                    <!-- inicio input -->
+                    <ng-autocomplete
+                    [data]="productos"
+                    [searchKeyword]="campobuscar"
+                    [itemTemplate]="itemTemplate"
+                    [notFoundTemplate]="notFoundTemplate"
+                    placeholder="Buscar producto"
+                    notFoundText="No se encontró ningún registro"
+                    closed="clear"
+                    (click)="mostrarBuscador();"></ng-autocomplete>
+                    <!-- fin input -->
+                    <!-- libreria inicio -->
+                    <ng-template #itemTemplate let-item>
+                        <a [innerHTML]="item.descripcion+' stock('+item.stock+')'" (click)="agregaritems(item.id)" (selected)="agregaritems(item.id)"></a>
+                    </ng-template>
+                    <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                    </ng-template>
+                    <!-- <input type="text" placeholder="Buscar producto" style="width: 100%;">
+                    <button type="button">Agregar</button> -->
+                </div>
+                <div class="column is-2"></div>
+            </div>
+            <!-- tabla de productos -->
+            <div class="columns">
+                <div class="column is-12">
+                    <!-- Tabla de productos -->
+                    <table style="border: 1px solid #000; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th>Cantidad</th>
+                                <th>Descripción</th>
+                                <th>P.Unitario</th>
+                                <th>S.Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="items" *ngFor="let item of itemsField.controls; let i = index">
+                            <tr [formGroupName]="i">
+                                <td><input class="input" type="number" [attr.id]="'item'+i" value="2" min="1" (click)="actualizarprecios(i)"
+                                        formControlName="cantidad"></td>
+                                <td><input class="input" type="text" [attr.id]="'item'+i" style="width: 400px ;background-color: transparent; border: 0; outline: none;"
+                                        formControlName="descripcion" readonly>
+                                </td>
+                                <td><input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
+                                        formControlName="punitario" readonly></td>
+                                <td>
+                                    <input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
+                                        formControlName="stotal" readonly></td>
+                                <td><button class="delete is-large" (click)="removeritem(i)"></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- pie de página -->
+            <div class="columns">
+                <div class="column is-2">
+                    <!-- info de la imprenta -->
+                </div>
+                <div class="column is-6" style="text-align: center;">
+                    <!-- boton de confirmacion -->
+                    <br>
+                    <div class="columns is-mobile">
+                        <button type="submit" class="button is-info is-fullwidth" (mouseover)="mostrarVenta();" (mouseout)="mostratAyuda();">Confirma Venta</button>
+                    </div>
+                    <h6>Cancelado</h6>
+                    <div style="display: flex;">
+                        <label for="razonsocial">Abancay, </label>
+                        <input type="text" value="24"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
+                        <label for="razonsocial">de </label>
+                        <input type="text" value="Enero"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
+                        <label for="razonsocial">del </label>
+                        <input type="text" value="2023"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
+                    </div>
+                </div>
+                <div class="column is-4">
+                    <!-- resumen general -->
+                    <table style="border: 1px solid #000; border-collapse: collapse;">
+                        <tr>
+                            <th style="width: 200px; height: 5px; border: 1px solid #000;">Sub Total (S/.)</th>
+                            <td style="width: 150px; height: 5px; border: 1px solid #000;"><input type="text"  class="input" style="background-color: transparent; border: 0; outline: none;" readonly [value]="vsubt"></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 200px; height: 5px; border: 1px solid #000;">I.G.V. (S/.)</th>
+                            <td style="width: 150px; height: 5px; border: 1px solid #000;"><input type="text"  class="input" style="background-color: transparent; border: 0; outline: none;" readonly [value]="vigv"></td>
+                        </tr>
+                        <tr>
+                            <th style="width: 200px; height: 5px; border: 1px solid #000;">Total (S/.)</th>
+                            <td style="width: 150px; height: 5px; border: 1px solid #000;"><input type="text" class="input" style="background-color: transparent; border: 0; outline: none;" readonly [value]="vtotal"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="column is-3" style="border-radius: 10px; background-color: darkcyan;">
+            <!-- aquí va la vista previa de lo que está haciendo -->
+            <div style="border-radius: 50%;">
+                <img [src]="images" id="changeImage" alt="foto-guia">
+            </div>
+        </div>
+    </div>
+</form>
+</section>

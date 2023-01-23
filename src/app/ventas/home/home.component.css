@@ -1,0 +1,9 @@
+.bordered { 
+    border: solid #ccc 1px; 
+    -moz-border-radius: 20px; 
+    -webkit-border-radius: 20px; 
+    border-radius: 20px; 
+    -webkit-box-shadow: 0 3px #ccc; 
+    -moz-box-shadow: 0 3px #ccc; 
+    box-shadow: 0 3px #ccc; 
+}
