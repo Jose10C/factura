@@ -1,4 +1,15 @@
 <section class="content">
+    <div>
+        <p class="buttons">
+              <button type="button" class="button is-large is-info is-outlined" (click)="cambiarEmision(1);" style="width: 200px;">
+                <span>FACTURA </span>
+              </button>
+              <button type="button" class="button is-large is-info is-outlined" (click)="cambiarEmision(2);" style="width: 200px;">
+                <span>BOLETA</span>
+              </button>
+        </p>
+    </div>
+    <br>
     <form [formGroup]="formventa" (ngSubmit)="guardar($event)">
     <div class="columns" style="background-color: #fff1ca;">
         <div class="column is-9" style="border-color: black; border-width: 2px; border-style: solid;">
@@ -19,7 +30,7 @@
                         <div class="field"
                             style="text-align: center ;border-color: black; border-width: 2px; border-style: solid;">
                             <h3>R.U.C. 20100074568</h3>
-                            <h3>FACTURA</h3>
+                            <h3>{{labelcuadro}}</h3>
                             <h6 style="color: rgb(223, 4, 4);">002 N° - 005160</h6>
                         </div>
                     </div>
@@ -47,7 +58,7 @@
                         </p>
                     </div>
                     <div style="display: flex;">
-                        <label for="razonsocial" style="width: 100px;">R.U.C. N°:</label>
+                        <label for="razonsocial" style="width: 100px;"> {{labelRuc}}:</label>
                         <input type="text"
                             style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
                             formControlName="ruc"
@@ -211,6 +222,7 @@
         </div>
         <div class="column is-3" style="background-color: white;">
             <!-- aquí va la vista previa de lo que está haciendo -->
+            
         </div>
     </div>
 </form>

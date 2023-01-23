@@ -124,6 +124,12 @@ export class HomeComponent implements OnInit{
     if (this.formventa.valid) {
       const value = this.formventa.value;
       console.log(value);
+      alert('La venta fue realizado correctamente');
+      this.formventa.reset();
+      this.vsubt = 0.0;
+      this.vigv = 0.0;
+      this.vtotal = 0.0;
+      this.itemsField.clear();
     } else {
       this.formventa.markAllAsTouched();
     }
@@ -152,6 +158,33 @@ export class HomeComponent implements OnInit{
   get direccionFieldIsInvalid() {
     return this.direccionField?.touched && this.direccionField?.invalid;
   }
+  /* get pintarBoton() {
+    return this.
+  } */
+labelRuc = 'R.U.C';
+labelcuadro = 'FACTURA';
+paintButtonfactura = 'button is-large is-info is-selected';
+paintButtonboleta = 'button is-large is-info';
+  /* cambiar emision */
+  cambiarEmision(valor: number) {
+    /* logica */
+    if(valor == 1) {
+      /* factura */
+      this.labelRuc = 'R.U.C';
+      this.labelcuadro = 'FACTURA';
+      this.paintButtonfactura = 'button is-large is-info is-selected';
+      this.paintButtonboleta = 'button is-large is-info';
+    }
+    if(valor == 2) {
+      /* boleta */
+      this.labelRuc = 'D.N.I.';
+      this.labelcuadro = 'BOLETA';
+      this.paintButtonboleta = 'button is-large is-info is-selected';
+      this.paintButtonfactura = 'button is-large is-info';
+    }
+  }
+
+
 
   /* extras */
   mostratAyuda(){
@@ -175,6 +208,10 @@ export class HomeComponent implements OnInit{
     this.images = 'assets/img/confirmar-04.gif';
   }
   mostrarBorrar() {
+    this.mostrar = false;
+    this.images = 'assets/img/borrar-05.gif';
+  }
+  mostrarDni() {
     this.mostrar = false;
     this.images = 'assets/img/borrar-05.gif';
   }
