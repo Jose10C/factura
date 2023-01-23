@@ -147,16 +147,18 @@
                         </thead>
                         <tbody formArrayName="items" *ngFor="let item of itemsField.controls; let i = index">
                             <tr [formGroupName]="i">
-                                <td><input class="input" type="number" [attr.id]="'item'+i" value="2" min="1" (click)="actualizarprecios(i)"
+                                <td><input class="input" type="number" style="width: 100px" [attr.id]="'item'+i" value="2" min="1" (click)="actualizarprecios(i)" (keyup)="actualizarprecios(i)"
                                         formControlName="cantidad"></td>
-                                <td><input class="input" type="text" [attr.id]="'item'+i" style="width: 400px ;background-color: transparent; border: 0; outline: none;"
-                                        formControlName="descripcion" readonly>
+                                <td> <p style="width: 400px">{{item.value['descripcion']}}</p>
+                                    <!-- <input class="input" type="text" [attr.id]="'item'+i" style="width: 400px ;background-color: transparent; border: 0; outline: none;"
+                                        formControlName="descripcion" readonly> -->
                                 </td>
-                                <td><input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
-                                        formControlName="punitario" readonly></td>
-                                <td>
-                                    <input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
-                                        formControlName="stotal" readonly></td>
+                                <td> <p>{{item.value['punitario']}}</p>
+                                    <!-- <input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
+                                        formControlName="punitario" readonly></td> -->
+                                <td> <p>{{item.value['stotal']}}</p>
+                                    <!-- <input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
+                                        formControlName="stotal" readonly [value]="item.value['stotal']"></td> -->
                                 <td><button class="delete is-large" (click)="removeritem(i)" (mouseover)="mostrarBorrar();" (mouseout)="mostratAyuda();"></button></td>
                             </tr>
                         </tbody>

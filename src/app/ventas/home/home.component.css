@@ -16,6 +16,10 @@ textarea {
     font: oblique bold 120% cursive;
 }
 
+p {
+    font: oblique bold 120% cursive;
+}
+
 .icon-ayuda {
     display: block;
     background-repeat:no-repeat;

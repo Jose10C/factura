@@ -94,14 +94,15 @@ export class HomeComponent implements OnInit{
     this.total_pagar();
     this.mostratAyuda();
   }
-
+  valores = [{id:[],valor:[]}];
   actualizarprecios(indice: number){
     for (let index = 0; index < this.itemsField.length; index++) {
       let cant = this.itemsField.value[index]['cantidad'];
       let pu = this.itemsField.value[index]['punitario'];
       let subtotal = cant*pu;
-      this.itemsField.value[index]['stotal'] = subtotal;
       
+      this.itemsField.value[index]['stotal'] = subtotal;
+
       console.log('Cantidad:'+cant+' PU:'+pu+' Total:'+subtotal);
     }
     this.total_pagar();
