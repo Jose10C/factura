@@ -31,6 +31,22 @@
                 <!-- informacion básica -->
                 <div class="column is-7">
                     <div style="display: flex;">
+                        <label for="razonsocial" style="width: 100px;">Señor (es):</label>
+                        <input type="text"
+                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
+                            formControlName="razonsocial"
+                            [class.is-danger]="razonsocialFieldIsInvalid"
+                            (focus)="mostrarRazon();"/>
+                    </div>
+                    <div *ngIf="razonsocialFieldIsInvalid">
+                        <p class="help is-danger" *ngIf="razonsocialField?.hasError('required')">
+                            *Este campo no puede ser vacío
+                        </p>
+                        <p class="help is-danger" *ngIf="razonsocialField?.hasError('minlength')">
+                            *Este campo debe tener 5 caracteres
+                        </p>
+                    </div>
+                    <div style="display: flex;">
                         <label for="razonsocial" style="width: 100px;">R.U.C. N°:</label>
                         <input type="text"
                             style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
@@ -47,22 +63,8 @@
                             *Este campo debe tener 11 caracteres
                         </p>
                     </div>
-                    <div style="display: flex;">
-                        <label for="razonsocial" style="width: 100px;">Señor (es):</label>
-                        <input type="text"
-                            style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
-                            formControlName="razonsocial"
-                            [class.is-danger]="razonsocialFieldIsInvalid"
-                            (focus)="mostrarRazon();"/>
-                    </div>
-                    <div *ngIf="razonsocialFieldIsInvalid">
-                        <p class="help is-danger" *ngIf="razonsocialField?.hasError('required')">
-                            *Este campo no puede ser vacío
-                        </p>
-                        <p class="help is-danger" *ngIf="razonsocialField?.hasError('minlength')">
-                            *Este campo debe tener 5 caracteres
-                        </p>
-                    </div>
+                    <!-- fin de ruc -->
+                    
                     <div style="display: flex;">
                         <label for="direccion" style="width: 100px;">Dirección:</label>
                         <input type="text"
