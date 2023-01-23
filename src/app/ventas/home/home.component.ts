@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit{
   vtotal = 0.0;
 
   images = 'assets/img/help.png';
-
+  mostrar = true;
   constructor (
     private FormBuilder: FormBuilder
   ){
@@ -92,6 +92,7 @@ export class HomeComponent implements OnInit{
   removeritem(indice: number){
     this.itemsField.removeAt(indice);
     this.total_pagar();
+    this.mostratAyuda();
   }
 
   actualizarprecios(indice: number){
@@ -153,18 +154,27 @@ export class HomeComponent implements OnInit{
 
   /* extras */
   mostratAyuda(){
+    this.mostrar = true;
     this.images = 'assets/img/help.png';
   }
   mostrarRUC() {
+    this.mostrar = false;
     this.images = 'assets/img/ruc-02.gif';
   }
   mostrarRazon() {
+    this.mostrar = false;
     this.images = 'assets/img/seniores-01.gif';
   }
   mostrarBuscador() {
+    this.mostrar = false;
     this.images = 'assets/img/buscar-03.gif';
   }
   mostrarVenta() {
+    this.mostrar = false;
     this.images = 'assets/img/confirmar-04.gif';
+  }
+  mostrarBorrar() {
+    this.mostrar = false;
+    this.images = 'assets/img/borrar-05.gif';
   }
 }

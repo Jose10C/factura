@@ -7,3 +7,22 @@
     -moz-box-shadow: 0 3px #ccc; 
     box-shadow: 0 3px #ccc; 
 }
+
+input {
+    font: oblique bold 120% cursive;
+}
+
+textarea {
+    font: oblique bold 120% cursive;
+}
+
+.icon-ayuda {
+    display: block;
+    background-repeat:no-repeat;
+    font-size:20px;
+    color:black;
+    position:fixed;
+    bottom:10px;
+    right:10px;
+    z-index:2;
+}

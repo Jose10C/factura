@@ -69,7 +69,8 @@
                         <input type="text"
                             style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
                             formControlName="direccion"
-                            [class.is-danger]="direccionFieldIsInvalid"/>
+                            [class.is-danger]="direccionFieldIsInvalid"
+                            (focus)="mostratAyuda();"/>
                     </div>
                     <div *ngIf="direccionFieldIsInvalid">
                         <p class="help is-danger" *ngIf="direccionField?.hasError('required')">
@@ -84,7 +85,7 @@
                 <div class="column is-5">
                     <div style="display: flex;">
                         <label for="razonsocial">Abancay, </label>
-                        <input type="text" value="24"
+                        <input type="text" value="23"
                             style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
                         <label for="razonsocial">de </label>
                         <input type="text" value="Enero"
@@ -156,7 +157,7 @@
                                 <td>
                                     <input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
                                         formControlName="stotal" readonly></td>
-                                <td><button class="delete is-large" (click)="removeritem(i)"></button></td>
+                                <td><button class="delete is-large" (click)="removeritem(i)" (mouseover)="mostrarBorrar();" (mouseout)="mostratAyuda();"></button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -176,7 +177,7 @@
                     <h6>Cancelado</h6>
                     <div style="display: flex;">
                         <label for="razonsocial">Abancay, </label>
-                        <input type="text" value="24"
+                        <input type="text" value="23"
                             style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
                         <label for="razonsocial">de </label>
                         <input type="text" value="Enero"
@@ -205,12 +206,13 @@
                 </div>
             </div>
         </div>
-        <div class="column is-3" style="border-radius: 10px; background-color: darkcyan;">
+        <div class="column is-3" style="background-color: white;">
             <!-- aquí va la vista previa de lo que está haciendo -->
-            <div style="border-radius: 50%;">
-                <img [src]="images" id="changeImage" alt="foto-guia">
-            </div>
         </div>
     </div>
 </form>
+<div class="icon-ayuda" style="border-radius: 10px; background-color: transparent; width: 370px;">
+    <img [hidden]="mostrar" [src]="images" id="changeImage" alt="foto-guia" height="50%">
+</div>
+<br>
 </section>
