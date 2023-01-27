@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
 
   formventa!: FormGroup;
 
@@ -18,9 +19,9 @@ export class HomeComponent implements OnInit{
 
   images = 'assets/img/help.png';
   mostrar = true;
-  constructor (
+  constructor(
     private FormBuilder: FormBuilder
-  ){
+  ) {
     this.buildForm();
   }
 
@@ -63,7 +64,7 @@ export class HomeComponent implements OnInit{
   private buildForm() {
     this.formventa = this.FormBuilder.group({
       ruc: ['', [Validators.required, Validators.minLength(11)]],
-      razonsocial: ['',[Validators.required, Validators.minLength(5)]],
+      razonsocial: ['', [Validators.required, Validators.minLength(5)]],
       direccion: ['', [Validators.required, Validators.minLength(5)]],
       items: this.FormBuilder.array([])
     });
@@ -74,8 +75,8 @@ export class HomeComponent implements OnInit{
   }
 
   agregaritems(indice: number) {
-    for (let valores of this.productos){
-      if(valores.id == indice){
+    for (let valores of this.productos) {
+      if (valores.id == indice) {
         console.log(valores);
         const itemsForm = this.FormBuilder.group({
           cantidad: ['1'],
@@ -89,47 +90,84 @@ export class HomeComponent implements OnInit{
     this.total_pagar();
   }
 
-  removeritem(indice: number){
-    this.itemsField.removeAt(indice);
-    this.total_pagar();
+  removeritem(indice: number) {
+    Swal.fire({
+      title: 'Confirmación',
+      text: "¿Está seguro que quiere Borrar?",
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Confirmar',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.itemsField.removeAt(indice);
+        this.total_pagar();
+        Swal.fire(
+          'Borrado',
+          'Se ha borrado el registro',
+          'success'
+        )
+      }
+    })
     this.mostratAyuda();
   }
-  valores = [{id:[],valor:[]}];
-  actualizarprecios(indice: number){
+  valores = [{ id: [], valor: [] }];
+  actualizarprecios(indice: number) {
     for (let index = 0; index < this.itemsField.length; index++) {
       let cant = this.itemsField.value[index]['cantidad'];
       let pu = this.itemsField.value[index]['punitario'];
-      let subtotal = cant*pu;
-      
+      let subtotal = cant * pu;
+
       this.itemsField.value[index]['stotal'] = subtotal;
 
-      console.log('Cantidad:'+cant+' PU:'+pu+' Total:'+subtotal);
+      console.log('Cantidad:' + cant + ' PU:' + pu + ' Total:' + subtotal);
     }
     this.total_pagar();
   }
 
-  total_pagar(){
-    let total_pagar=0;
+  total_pagar() {
+    let total_pagar = 0;
     for (let index = 0; index < this.itemsField.length; index++) {
       total_pagar = total_pagar + this.itemsField.value[index]['stotal'];
     }
-    this.vsubt = (total_pagar-(total_pagar*0.18));
-    this.vigv = parseFloat((total_pagar*0.18).toFixed(2));
+    this.vsubt = (total_pagar - (total_pagar * 0.18));
+    this.vigv = parseFloat((total_pagar * 0.18).toFixed(2));
     this.vtotal = total_pagar;
-    console.log('Total s/.'+total_pagar);
+    console.log('Total s/.' + total_pagar);
   }
 
   guardar(event: Event) {
     event.preventDefault();
     if (this.formventa.valid) {
-      const value = this.formventa.value;
-      console.log(value);
-      alert('La venta fue realizado correctamente');
-      this.formventa.reset();
-      this.vsubt = 0.0;
-      this.vigv = 0.0;
-      this.vtotal = 0.0;
-      this.itemsField.clear();
+      Swal.fire({
+        title: 'Confirmación',
+        text: "Está seguro de Guardar",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Confirmar',
+        cancelButtonText: 'No'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          /* aqui la confirmacion */
+          const value = this.formventa.value;
+          /* console.log(value);
+          alert('La venta fue realizado correctamente'); */
+          this.formventa.reset();
+          this.vsubt = 0.0;
+          this.vigv = 0.0;
+          this.vtotal = 0.0;
+          this.itemsField.clear();
+          Swal.fire(
+            'Guardado',
+            'Venta Guardado Correctamente',
+            'success'
+          )
+        }
+      })
     } else {
       this.formventa.markAllAsTouched();
     }
@@ -161,33 +199,44 @@ export class HomeComponent implements OnInit{
   /* get pintarBoton() {
     return this.
   } */
-labelRuc = 'R.U.C';
-labelcuadro = 'FACTURA';
-paintButtonfactura = 'button is-large is-info is-selected';
-paintButtonboleta = 'button is-large is-info';
+  labelRuc = 'R.U.C';
+  labelcuadro = 'FACTURA';
+  labelfactura = 'is-dark';
+  labelboleta = 'is-dark is-outlined';
+  t_max_length = 11;
   /* cambiar emision */
   cambiarEmision(valor: number) {
-    /* logica */
-    if(valor == 1) {
+
+    let getruc = this.formventa.get("ruc");
+    if (valor == 1) {
       /* factura */
-      this.labelRuc = 'R.U.C';
+      getruc?.clearValidators();
+      getruc?.addValidators([Validators.required, Validators.minLength(11)]);
+      this.t_max_length = 11;
+      this.labelRuc = 'R.U.C.';
       this.labelcuadro = 'FACTURA';
-      this.paintButtonfactura = 'button is-large is-info is-selected';
-      this.paintButtonboleta = 'button is-large is-info';
+      this.labelfactura = 'is-dark';
+      this.labelboleta = 'is-dark is-outlined';
     }
-    if(valor == 2) {
+    if (valor == 2) {
       /* boleta */
+      getruc?.clearValidators();
+      getruc?.addValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+      this.t_max_length = 8;
       this.labelRuc = 'D.N.I.';
       this.labelcuadro = 'BOLETA';
-      this.paintButtonboleta = 'button is-large is-info is-selected';
-      this.paintButtonfactura = 'button is-large is-info';
+      this.labelfactura = 'is-dark is-outlined';
+      this.labelboleta = 'is-dark';
     }
+    getruc?.markAsDirty();
+    getruc?.updateValueAndValidity();
+
   }
 
 
 
   /* extras */
-  mostratAyuda(){
+  mostratAyuda() {
     this.mostrar = true;
     this.images = 'assets/img/help.png';
   }

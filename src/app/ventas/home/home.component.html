@@ -1,26 +1,28 @@
 <section class="content">
-    <div>
-        <p class="buttons">
-              <button type="button" class="button is-large is-info is-outlined" (click)="cambiarEmision(1);" style="width: 200px;">
-                <span>FACTURA </span>
-              </button>
-              <button type="button" class="button is-large is-info is-outlined" (click)="cambiarEmision(2);" style="width: 200px;">
-                <span>BOLETA</span>
-              </button>
-        </p>
+    <div class="columns">
+        <div class="column is-3"></div>
+        <div class="column is-3" style="display: contents;padding-bottom: 0px;">
+            <button type="button" style="color: aqua; padding-bottom: 0px;" class="button is-medium {{labelfactura}}" (click)="cambiarEmision(1);" style="width: 150px;">
+            <span>FACTURA </span>
+            </button>
+            <button type="button" style="color: aqua;" class="button is-medium {{labelboleta}}" (click)="cambiarEmision(2);" style="width: 150px;">
+            <span>BOLETA</span>
+            </button>
+        </div>
+        <div class="column is-4"></div>
     </div>
     <br>
     <form [formGroup]="formventa" (ngSubmit)="guardar($event)">
-    <div class="columns" style="background-color: #fff1ca;">
-        <div class="column is-9" style="border-color: black; border-width: 2px; border-style: solid;">
+    <div class="columns">
+        <div class="column is-9" style="border-radius: 15px; border: solid 3px; background-color: #fff1ca;">
             <!-- boleta -->
             <!-- cabecera -->
             <div class="columns">
                 <!-- informacion de la empresa -->
                 <div class="column is-7" style="text-align: center;">
                     <br>
-                    <h4 class="nada">Multiservicio y Libreria E.I.R.L</h4>
-                    <h1 class="nada">"La Casa del buen Lector"</h1>
+                    <h4 class="">Multiservicio y Libreria E.I.R.L</h4>
+                    <h1 class="titulo_estilo">"La Casa del buen Lector"</h1>
                     <h5 class="nada">Av. Miguel Grau 982 - La Victoria - Lima</h5>
                     <h6 class="nada">Jr. Callao 134 - Miraflores - Lima</h6>
                 </div>
@@ -36,8 +38,8 @@
                     </div>
                 </div>
             </div>
-            <!-- datos personales del cliente -->
 
+            <!-- datos personales del cliente -->
             <div class="columns">
                 <!-- informacion básica -->
                 <div class="column is-7">
@@ -62,7 +64,7 @@
                         <input type="text"
                             style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%"
                             formControlName="ruc"
-                            [class.is-danger]="rucFieldIsInvalid" [maxLength]="11"
+                            [class.is-danger]="rucFieldIsInvalid" [maxLength]="t_max_length"
                             onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"
                             (focus)="mostrarRUC();"/>
                     </div>
@@ -71,7 +73,10 @@
                             *Este campo no puede ser vacío
                         </p>
                         <p class="help is-danger" *ngIf="rucField?.hasError('minlength')">
-                            *Este campo debe tener 11 caracteres
+                            *Este campo debe tener {{t_max_length}} caracteres
+                        </p>
+                        <p class="help is-danger" *ngIf="rucField?.hasError('maxlength')">
+                            *Este campo debe tener {{t_max_length}} caracteres
                         </p>
                     </div>
                     <!-- fin de ruc -->
@@ -97,7 +102,7 @@
                 <div class="column is-5">
                     <div style="display: flex;">
                         <label for="razonsocial">Abancay, </label>
-                        <input type="text" value="23"
+                        <input type="text" value="27"
                             style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
                         <label for="razonsocial">de </label>
                         <input type="text" value="Enero"
@@ -147,31 +152,24 @@
             <div class="columns">
                 <div class="column is-12">
                     <!-- Tabla de productos -->
-                    <table style="border: 1px solid #000; border-collapse: collapse;">
+                    <table>
                         <thead>
                             <tr>
-                                <th>Cantidad</th>
-                                <th>Descripción</th>
-                                <th>P.Unitario</th>
-                                <th>S.Total</th>
-                                <th>Acciones</th>
+                                <th style="border-top-left-radius: 10px; background-color: #d6ccaf">Cantidad</th>
+                                <th style="background-color: #d6ccaf">Descripción</th>
+                                <th style="background-color: #d6ccaf">P.Unitario</th>
+                                <th style="background-color: #d6ccaf">S.Total</th>
+                                <th style="border-top-right-radius: 10px; background-color: #d6ccaf">Acciones</th>
                             </tr>
                         </thead>
                         <tbody formArrayName="items" *ngFor="let item of itemsField.controls; let i = index">
                             <tr [formGroupName]="i">
-                                <td><input class="input" type="number" style="width: 100px" [attr.id]="'item'+i" value="2" min="1" (click)="actualizarprecios(i)" (keyup)="actualizarprecios(i)"
-                                        formControlName="cantidad"></td>
-                                <td> <p style="width: 400px">{{item.value['descripcion']}}</p>
-                                    <!-- <input class="input" type="text" [attr.id]="'item'+i" style="width: 400px ;background-color: transparent; border: 0; outline: none;"
-                                        formControlName="descripcion" readonly> -->
-                                </td>
-                                <td> <p>{{item.value['punitario']}}</p>
-                                    <!-- <input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
-                                        formControlName="punitario" readonly></td> -->
-                                <td> <p>{{item.value['stotal']}}</p>
-                                    <!-- <input class="input" type="text" [attr.id]="'item'+i" style="background-color: transparent; border: 0; outline: none;"
-                                        formControlName="stotal" readonly [value]="item.value['stotal']"></td> -->
-                                <td><button class="delete is-large" (click)="removeritem(i)" (mouseover)="mostrarBorrar();" (mouseout)="mostratAyuda();"></button></td>
+                                <td><input class="input" type="number" style="width: 100px; height: 35px;" [attr.id]="'item'+i" value="2" min="1" (click)="actualizarprecios(i)" (keyup)="actualizarprecios(i)"
+                                    formControlName="cantidad"></td>
+                                <td><p style="width: 400px">{{item.value['descripcion']}}</p></td>
+                                <td><p>{{item.value['punitario']}}</p></td>
+                                <td><p>{{item.value['stotal']}}</p></td>
+                                <td style="border-bottom-right-radius: 10px; background-color: #e9debe; text-align: center; cursor: pointer;"><span class="icon-text has-text-dark" (click)="removeritem(i)" (mouseover)="mostrarBorrar();" (mouseout)="mostratAyuda();"><i class="fa-solid fa-trash-can icon"></i></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -188,10 +186,9 @@
                     <div class="columns is-mobile">
                         <button type="submit" class="button is-info is-fullwidth" (mouseover)="mostrarVenta();" (mouseout)="mostratAyuda();">Confirma Venta</button>
                     </div>
-                    <h6>Cancelado</h6>
                     <div style="display: flex;">
                         <label for="razonsocial">Abancay, </label>
-                        <input type="text" value="23"
+                        <input type="text" value="27"
                             style="background-color:transparent; border: 0; outline: none; border-bottom: 1px dotted #000; width: 100%">
                         <label for="razonsocial">de </label>
                         <input type="text" value="Enero"
@@ -203,22 +200,23 @@
                 </div>
                 <div class="column is-4">
                     <!-- resumen general -->
-                    <table style="border: 1px solid #000; border-collapse: collapse;">
+                    <table>
                         <tr>
-                            <th style="width: 200px; height: 5px; border: 1px solid #000;">Sub Total (S/.)</th>
-                            <td style="width: 150px; height: 5px; border: 1px solid #000;"><input type="text"  class="input" style="background-color: transparent; border: 0; outline: none;" readonly [value]="vsubt"></td>
+                            <th style="border-top-left-radius: 10px; background-color: #e9debe">Sub Total (S/.)</th>
+                            <td style="border-top-right-radius: 10px; background-color: #e9debe"><p>{{vsubt}}</p></td>
                         </tr>
                         <tr>
-                            <th style="width: 200px; height: 5px; border: 1px solid #000;">I.G.V. (S/.)</th>
-                            <td style="width: 150px; height: 5px; border: 1px solid #000;"><input type="text"  class="input" style="background-color: transparent; border: 0; outline: none;" readonly [value]="vigv"></td>
+                            <th style="background-color: #e9debe">I.G.V. (S/.)</th>
+                            <td style="background-color: #e9debe"><p>{{vigv}}</p></td>
                         </tr>
                         <tr>
-                            <th style="width: 200px; height: 5px; border: 1px solid #000;">Total (S/.)</th>
-                            <td style="width: 150px; height: 5px; border: 1px solid #000;"><input type="text" class="input" style="background-color: transparent; border: 0; outline: none;" readonly [value]="vtotal"></td>
+                            <th style="border-bottom-left-radius: 10px; background-color: #b3ab92;">Total (S/.)</th>
+                            <td style="border-bottom-right-radius: 10px; background-color: #b3ab92;"><p>{{vtotal}}</p></td>
                         </tr>
                     </table>
                 </div>
             </div>
+            <br>
         </div>
         <div class="column is-3" style="background-color: white;">
             <!-- aquí va la vista previa de lo que está haciendo -->
@@ -230,4 +228,5 @@
     <img [hidden]="mostrar" [src]="images" id="changeImage" alt="foto-guia" height="50%">
 </div>
 <br>
+
 </section>

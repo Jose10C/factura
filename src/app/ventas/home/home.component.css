@@ -30,3 +30,7 @@ p {
     right:10px;
     z-index:2;
 }
+
+.titulo_estilo{
+    font-family: fantasy;
+}
